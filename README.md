@@ -6,8 +6,7 @@ brainfuck in spwn
 BFCK("code")
 
 converts a string into brainfuck code (not perfect)
-
-
+\n
 BFCKin("code")
 
 executes a brainfuck code
@@ -17,8 +16,7 @@ executes a brainfuck code
 Round(number)
 
 returns a rounded number
-
-
+\n
 ASCII("character" | number)
 
 @number to @string and @string to @number with the official ASCII list (not especial characters)
