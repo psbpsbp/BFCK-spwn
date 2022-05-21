@@ -1,11 +1,7 @@
 #[cache_output]
 
 round = (num) {
-    if $.fract(num) <= 0.5 {
-        return @string($.floor(num))
-    } else {
-        return @string($.ceil(num))
-    }
+    round = (num: @number) => @string($.floor(num) if $.fract(num) <= 0.5 else $.ceil(num))
 }
 
 ASCII = (input) {
@@ -32,16 +28,10 @@ BFCK = (text = @string) {
         if !(text_letters.contains(text[letter])) {
             text_letters.push(text[letter])
         }
-    }
-    for letter in 0..text.length {
         sqrts.push(round($.sqrt(ASCII(text[letter]))))
-    }
-    for number in 0..text.length {
-        if !(square.contains(@number(sqrts[number]))) {
-        square.push(@number(sqrts[number]))
+        if !(square.contains(@number(sqrts[letter]))) {
+            square.push(@number(sqrts[letter]))
         }
-    }
-    for number in 0..text_letters.length {
         squares.push(round($.sqrt(ASCII(text_letters[number]))))
     }
     for sum in 0..square.length {
@@ -113,29 +103,30 @@ BFCKin = (code) {
     let unit = 0
 
     while unit <= code.length - 1 {  
-        if code[unit] == "+" {
-            cells[current_cell] = cells[current_cell] + 1
-        } else if code[unit] == "-" {
-            cells[current_cell] = cells[current_cell] - 1
-        } else if code[unit] == ">" {
-            if cells.length == current_cell + 1 {
-                cells.push(0)
-            }
-            current_cell = current_cell + 1
-        } else if code[unit] == "<" {
-            current_cell = current_cell - 1
-        } else if code[unit] == "." {
-            output = output + ASCII(cells[current_cell])
-        } else if code[unit] == "," {
-            cells[current_cell] = @number($.get_input("\u{1b}[32m" + "Number ==> " + "\u{1b}[97m").trim())
-        } else if code[unit] == "[" {
-            loops.push(unit)
-        } else if code[unit] == "]" {
-            if cells[current_cell] == 0 {
-                $.pop(loops)
-            } else {
-                unit = $.pop(loops) - 1
-            }
+        match code[unit] {
+            == "+" : (cells[current_cell] = cells[current_cell] + 1),
+            == "-" : (cells[current_cell] = cells[current_cell] - 1),
+            == ">" : () {
+                if cells.length == current_cell + 1 {
+                        cells.push(0)
+                }
+                current_cell = current_cell + 1                
+            } (),
+            == "<" : (current_cell = current_cell - 1),
+            == "." : (output = output + ASCII(cells[current_cell])),
+            == "," : () {
+                cells[current_cell] = @number($.get_input("\u{1b}[32m" + "Number ==> " + "\u{1b}[97m").trim())
+            } (),
+            == "[" : () {
+                loops.push(unit)
+            } (),
+            == "]" : () {
+                if cells[current_cell] == 0 {
+                    $.pop(loops)
+                } else {
+                    unit = $.pop(loops) - 1
+                }
+            } ()
         }
         unit = unit + 1
     }
