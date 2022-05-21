@@ -24,3 +24,8 @@ returns a rounded number
 ASCII("character" | number)
 
 @number to @string and @string to @number with the official ASCII list (not especial characters)
+
+
+# Udate 1.1
+
+the same but specky dosn't cry
